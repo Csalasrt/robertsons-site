@@ -1,4 +1,4 @@
-/* Robertsons Team — product catalog
+/* Robertsons Team: product catalog
    lb = pounds per gallon @ 20°C, sg = specific gravity 20°/20°C
    Edit this one file to update the catalog everywhere on the site. */
 window.RT_CATALOG = [
@@ -87,5 +87,25 @@ window.RT_CATALOG = [
     ["Caustic Soda Liquid", 12.8, 1.534],
     ["Mineral Oil", 6.75, 0.809],
     ["Water", 8.34, 1]
+  ]}
+];
+
+/* Packaging for the weight calculator
+   gal = nominal volume per container, tare = empty container weight in lb
+   Typical industry values; edit to match the containers you ship. */
+window.RT_PACKAGING = [
+  { id: "bulk", name: "Bulk", qty: 4000, note: "Tanker load. Product weight only, no container.", sizes: [
+    { label: "Gallons", gal: 1, tare: 0 },
+    { label: "Liters", gal: 0.264172, tare: 0 }
+  ]},
+  { id: "tote", name: "Totes", qty: 6, pick: 1, sizes: [
+    { label: "275 gal tote", gal: 275, tare: 135 },
+    { label: "330 gal tote", gal: 330, tare: 155 }
+  ]},
+  { id: "drum", name: "Poly Drums", qty: 10, sizes: [
+    { label: "55 gal drum", gal: 55, tare: 22 }
+  ]},
+  { id: "pail", name: "Pails", qty: 20, sizes: [
+    { label: "5 gal pail", gal: 5, tare: 2 }
   ]}
 ];

@@ -1,5 +1,5 @@
 /* =========================================================
-   ROBERTSONS TEAM — shared interactions
+   ROBERTSONS TEAM: shared interactions
    ========================================================= */
 (function () {
   "use strict";
@@ -270,72 +270,101 @@
   /* ---------- Year ---------- */
   $$("[data-year]").forEach(function (el) { el.textContent = new Date().getFullYear(); });
 
-  /* ---------- Molecular network canvas ---------- */
-  function Molecules(canvas) {
+  /* ---------- Pump jack field canvas ---------- */
+  function PumpJacks(canvas) {
     var ctx = canvas.getContext("2d");
     var dpr = Math.min(window.devicePixelRatio || 1, 2);
-    var W, H, nodes = [], mouse = { x: -9999, y: -9999 }, running = false, raf;
+    var W, H, ground, jacks = [], running = false, raf;
     var density = parseFloat(canvas.getAttribute("data-density") || "1");
+    var host = canvas.parentElement;
+    function layer(n, scale, alpha, minGap) {
+      var out = [], tries = 0;
+      while (out.length < n && tries++ < n * 30) {
+        var x = 40 + Math.random() * (W - 80), ok = true;
+        for (var i = 0; i < out.length; i++) if (Math.abs(out[i].x - x) < minGap) { ok = false; break; }
+        if (!ok) continue;
+        out.push({
+          x: x, s: scale * (0.85 + Math.random() * 0.3), a: alpha,
+          dir: Math.random() < 0.5 ? 1 : -1,
+          w: (Math.PI * 2) / (3600 + Math.random() * 2200), ph: Math.random() * Math.PI * 2
+        });
+      }
+      return out;
+    }
     function resize() {
       var r = canvas.getBoundingClientRect();
       W = r.width; H = r.height;
       canvas.width = W * dpr; canvas.height = H * dpr;
       ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
-      var count = Math.round(Math.min(140, (W * H) / 11000) * density);
-      nodes = [];
-      for (var i = 0; i < count; i++) {
-        var big = Math.random() < 0.08;
-        nodes.push({
-          x: Math.random() * W, y: Math.random() * H,
-          vx: (Math.random() - 0.5) * 0.22, vy: (Math.random() - 0.5) * 0.22,
-          r: big ? 2.6 + Math.random() * 1.6 : 1 + Math.random() * 1.2,
-          red: big && Math.random() < 0.45, big: big, ph: Math.random() * Math.PI * 2
-        });
-      }
+      var stats = host.querySelector(".hero-stats");
+      ground = H - (stats ? stats.offsetHeight : 0) - 2;
+      var back = Math.max(2, Math.round((W / 230) * density));
+      var front = Math.max(1, Math.round((W / 480) * density));
+      jacks = layer(back, 0.5, 0.2, 110).concat(layer(front, 0.95, 0.42, 220));
       if (!running) draw(0);
+    }
+    function jack(j, t) {
+      var u = 64 * j.s, d = j.dir, c = Math.sin(t * j.w + j.ph);
+      var px = j.x, py = ground - 1.05 * u;          // samson post pivot
+      var cx = px + d * 0.78 * u, cy = ground - 0.34 * u; // crank / gearbox
+      var cr = 0.24 * u, ang = t * j.w + j.ph;
+      var pinX = cx + d * Math.cos(ang) * cr, pinY = cy - Math.sin(ang) * cr;
+      var tilt = Math.asin(Math.max(-1, Math.min(1, (cy - pinY) / (0.95 * u)))) * 0.9;
+      var hx = px - d * Math.cos(tilt) * 1.0 * u, hy = py + Math.sin(tilt) * 1.0 * u;   // horsehead end
+      var tx = px + d * Math.cos(tilt) * 0.95 * u, ty = py - Math.sin(tilt) * 0.95 * u; // tail end
+      var col = "rgba(125,146,232," + j.a + ")";
+      ctx.strokeStyle = col; ctx.fillStyle = col; ctx.lineCap = "round"; ctx.lineJoin = "round";
+      // skid
+      ctx.lineWidth = Math.max(1.2, 0.07 * u);
+      ctx.beginPath(); ctx.moveTo(px - d * 0.7 * u, ground); ctx.lineTo(cx + d * 0.35 * u, ground); ctx.stroke();
+      // samson post
+      ctx.lineWidth = Math.max(1, 0.05 * u);
+      ctx.beginPath(); ctx.moveTo(px - 0.28 * u, ground); ctx.lineTo(px, py); ctx.lineTo(px + 0.28 * u, ground); ctx.stroke();
+      ctx.beginPath(); ctx.moveTo(px - 0.17 * u, ground - 0.42 * u); ctx.lineTo(px + 0.17 * u, ground - 0.42 * u); ctx.stroke();
+      // gearbox
+      ctx.fillRect(cx - 0.13 * u, cy - 0.02 * u, 0.26 * u, ground - cy + 0.02 * u);
+      // crank arm + counterweight
+      ctx.lineWidth = Math.max(1, 0.06 * u);
+      ctx.beginPath(); ctx.moveTo(cx, cy); ctx.lineTo(pinX, pinY); ctx.stroke();
+      var cw = Math.atan2(pinY - cy, pinX - cx) + Math.PI;
+      ctx.beginPath(); ctx.moveTo(cx, cy); ctx.arc(cx, cy, 0.2 * u, cw - 0.6, cw + 0.6); ctx.closePath(); ctx.fill();
+      // pitman arm
+      ctx.lineWidth = Math.max(1, 0.035 * u);
+      ctx.beginPath(); ctx.moveTo(tx, ty); ctx.lineTo(pinX, pinY); ctx.stroke();
+      // walking beam
+      ctx.lineWidth = Math.max(1.4, 0.08 * u);
+      ctx.beginPath(); ctx.moveTo(hx, hy); ctx.lineTo(tx, ty); ctx.stroke();
+      // horsehead
+      ctx.save(); ctx.translate(hx, hy); ctx.rotate(d > 0 ? -tilt : tilt);
+      ctx.beginPath();
+      ctx.moveTo(0, -0.08 * u);
+      ctx.quadraticCurveTo(-d * 0.26 * u, -0.02 * u, -d * 0.2 * u, 0.3 * u);
+      ctx.lineTo(0, 0.12 * u); ctx.closePath(); ctx.fill();
+      ctx.restore();
+      // polished rod down to wellhead
+      var rodX = hx - d * 0.2 * u, rodTop = hy + 0.3 * u;
+      ctx.lineWidth = Math.max(0.8, 0.02 * u);
+      ctx.beginPath(); ctx.moveTo(rodX, rodTop); ctx.lineTo(rodX, ground - 0.12 * u); ctx.stroke();
+      ctx.fillRect(rodX - 0.06 * u, ground - 0.14 * u, 0.12 * u, 0.14 * u);
+      // pivot bearing
+      ctx.beginPath(); ctx.arc(px, py, Math.max(1.5, 0.05 * u), 0, Math.PI * 2); ctx.fill();
+      // beacon on the front row
+      if (j.s > 0.7) {
+        var on = (Math.sin(t / 700 + j.ph * 3) + 1) / 2;
+        ctx.fillStyle = "rgba(240,53,59," + (0.25 + on * 0.6) * (j.a / 0.42) + ")";
+        ctx.beginPath(); ctx.arc(px, py - 0.12 * u, Math.max(1.5, 0.035 * u), 0, Math.PI * 2); ctx.fill();
+      }
     }
     function draw(t) {
       ctx.clearRect(0, 0, W, H);
-      var maxD = Math.min(150, Math.max(100, W / 10));
-      for (var i = 0; i < nodes.length; i++) {
-        var a = nodes[i];
-        if (running) {
-          a.x += a.vx; a.y += a.vy;
-          var dx = a.x - mouse.x, dy = a.y - mouse.y, md = dx * dx + dy * dy;
-          if (md < 22000) { a.x += dx * 0.004; a.y += dy * 0.004; }
-          if (a.x < -20) a.x = W + 20; if (a.x > W + 20) a.x = -20;
-          if (a.y < -20) a.y = H + 20; if (a.y > H + 20) a.y = -20;
-        }
-        for (var j = i + 1; j < nodes.length; j++) {
-          var b = nodes[j];
-          var ddx = a.x - b.x, ddy = a.y - b.y, d = Math.sqrt(ddx * ddx + ddy * ddy);
-          if (d < maxD) {
-            var al = (1 - d / maxD) * 0.28;
-            ctx.strokeStyle = "rgba(125,146,232," + al + ")";
-            ctx.lineWidth = (a.big || b.big) ? 1 : 0.6;
-            ctx.beginPath(); ctx.moveTo(a.x, a.y); ctx.lineTo(b.x, b.y); ctx.stroke();
-          }
-        }
-      }
-      for (var k = 0; k < nodes.length; k++) {
-        var n = nodes[k];
-        var pulse = n.big ? 1 + Math.sin(t / 900 + n.ph) * 0.25 : 1;
-        if (n.big) {
-          ctx.fillStyle = n.red ? "rgba(240,53,59,.16)" : "rgba(125,146,232,.14)";
-          ctx.beginPath(); ctx.arc(n.x, n.y, n.r * 4 * pulse, 0, Math.PI * 2); ctx.fill();
-        }
-        ctx.fillStyle = n.red ? "rgba(240,53,59,.95)" : (n.big ? "rgba(214,222,255,.95)" : "rgba(170,186,245,.7)");
-        ctx.beginPath(); ctx.arc(n.x, n.y, n.r, 0, Math.PI * 2); ctx.fill();
-      }
+      var g = ctx.createLinearGradient(0, 0, W, 0);
+      g.addColorStop(0, "rgba(125,146,232,0)"); g.addColorStop(0.5, "rgba(125,146,232,.28)"); g.addColorStop(1, "rgba(125,146,232,0)");
+      ctx.fillStyle = g; ctx.fillRect(0, ground, W, 1);
+      for (var i = 0; i < jacks.length; i++) jack(jacks[i], t);
       if (running) raf = requestAnimationFrame(draw);
     }
     function start() { if (running || reduce) return; running = true; raf = requestAnimationFrame(draw); }
     function stop() { running = false; cancelAnimationFrame(raf); }
-    var host = canvas.parentElement;
-    host.addEventListener("pointermove", function (e) {
-      var r = canvas.getBoundingClientRect(); mouse.x = e.clientX - r.left; mouse.y = e.clientY - r.top;
-    });
-    host.addEventListener("pointerleave", function () { mouse.x = mouse.y = -9999; });
     var rt; window.addEventListener("resize", function () { clearTimeout(rt); rt = setTimeout(resize, 150); });
     resize();
     if ("IntersectionObserver" in window) {
@@ -343,7 +372,7 @@
     } else start();
     document.addEventListener("visibilitychange", function () { document.hidden ? stop() : start(); });
   }
-  $$("canvas.molecules").forEach(function (c) { Molecules(c); });
+  $$("canvas.pumpjacks").forEach(function (c) { PumpJacks(c); });
 
   /* ---------- Density explorer (home) ---------- */
   var ex = $("#explorer");

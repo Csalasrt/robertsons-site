@@ -21,7 +21,7 @@
     cats.forEach(function (c) {
       c.items.forEach(function (it) {
         var tr = document.createElement("tr");
-        var sg = it[2] == null ? '<span class="muted">—</span>' : it[2].toFixed(3);
+        var sg = it[2] == null ? '<span class="muted">-</span>' : it[2].toFixed(3);
         var lb = it[1] + (it[3] ? ' <small>' + it[3] + "</small>" : "");
         tr.innerHTML =
           '<td class="nm">' + esc(it[0]) + "</td>" +
@@ -142,17 +142,35 @@
     $$("option", sel).some(function (o) { if (o.textContent === "Methanol") { o.selected = true; return true; } });
     var fmt = function (n, d) { return n.toLocaleString("en-US", { maximumFractionDigits: d || 0, minimumFractionDigits: d || 0 }); };
     var outLb = $("#oLb"), outGal = $("#oGal"), outKg = $("#oKg"), outL = $("#oL"), outT = $("#oT"), outName = $("#oName");
+    var outNet = $("#oNet"), outTare = $("#oTare"), hint = $("#chint");
+    var packs = window.RT_PACKAGING || [], pack;
+    function setPack(id, keepQty) {
+      pack = packs.filter(function (p) { return p.id === id; })[0] || packs[0];
+      unit.innerHTML = "";
+      pack.sizes.forEach(function (sz, i) {
+        var o = document.createElement("option"); o.value = i; o.textContent = sz.label; unit.appendChild(o);
+      });
+      unit.value = pack.pick || 0;
+      unit.disabled = pack.sizes.length < 2;
+      if (!keepQty) qty.value = pack.qty;
+      calc();
+    }
     var shown = 0, anim;
     function calc() {
       var lbg = parseFloat(sel.value) || 0;
       var q = Math.max(0, parseFloat(qty.value) || 0);
-      var gal = q * parseFloat(unit.value);
-      var lb = gal * lbg;
+      var sz = pack.sizes[+unit.value] || pack.sizes[0];
+      var gal = q * sz.gal;
+      var net = gal * lbg, tare = q * sz.tare;
+      var lb = net + tare;
+      outNet.textContent = fmt(net);
+      outTare.textContent = fmt(tare);
       outGal.textContent = fmt(gal);
       outKg.textContent = fmt(lb * 0.45359237);
       outL.textContent = fmt(gal * 3.785411784);
       outT.textContent = fmt(lb / 2000, 2);
       outName.textContent = sel.options[sel.selectedIndex].textContent + " · " + lbg + " lb/gal";
+      hint.textContent = pack.note || (sz.label + " weighs about " + sz.tare + " lb empty.");
       var from = shown, to = lb, st = null;
       cancelAnimationFrame(anim);
       (function step(t) {
@@ -164,7 +182,14 @@
       })(performance.now());
     }
     [sel, qty, unit].forEach(function (el) { el.addEventListener("input", calc); el.addEventListener("change", calc); });
-    calc();
+    $$('input[name="cpack"]').forEach(function (r) { r.addEventListener("change", function () { setPack(r.value); }); });
+    setPack("tote", true);
+    // the catalog table renders above the calculator, so re-anchor once it's laid out
+    if (location.hash === "#calculator") {
+      var calcSec = $("#calculator");
+      requestAnimationFrame(function () { calcSec.scrollIntoView({ behavior: "instant", block: "start" }); });
+      window.addEventListener("load", function () { calcSec.scrollIntoView({ behavior: "instant", block: "start" }); });
+    }
   }
 
   /* ================= CONTACT ================= */

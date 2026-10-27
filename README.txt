@@ -1,4 +1,4 @@
-ROBERTSONS TEAM — WEBSITE
+ROBERTSONS TEAM: WEBSITE
 =========================
 
 Plain static site. Upload the contents of this folder to your host (Netlify drag-and-drop works).
@@ -6,7 +6,7 @@ Plain static site. Upload the contents of this folder to your host (Netlify drag
 Pages: index, products, services, about, commitment, contact, 404
 
 EDITING
-- Products & densities: assets/js/data.js (one list — updates the catalog table,
+- Products & densities: assets/js/data.js (one list, updates the catalog table,
   the density explorer on the home page, and the weight calculator)
 - Styles: assets/css/site.css   (brand colors are at the top)
 - Interactions: assets/js/site.js, assets/js/catalog.js
