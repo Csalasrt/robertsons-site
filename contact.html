@@ -9,7 +9,7 @@
 <meta property="og:title" content="Contact & Request a Quote | Robertsons Team"><meta property="og:description" content="Request a quote for commodity and specialty chemicals. Call 281-550-8286 or send your product, spec, quantity, packaging and destination."><meta property="og:type" content="website">
 <link rel="icon" href="assets/img/logo-mark.png">
 <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@62..125,300..800&family=Tinos:wght@700&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="assets/css/site.css?v=20261026">
+<link rel="stylesheet" href="assets/css/site.css?v=20261028">
 <script>document.documentElement.className="js";setTimeout(function(){document.documentElement.classList.add("is-ready")},2500);</script>
 </head><body>
 <a class="skip" href="#main">Skip to content</a>
@@ -55,7 +55,7 @@
           <div class="field"><label for="f_name">Name *</label><input id="f_name" name="name" autocomplete="name" required data-track placeholder="Your name"></div>
           <div class="field"><label for="f_company">Company</label><input id="f_company" name="company" autocomplete="organization" placeholder="Company name"></div>
           <div class="field"><label for="f_email">Email *</label><input id="f_email" name="email" type="email" autocomplete="email" required data-track placeholder="you@company.com"></div>
-          <div class="field"><label for="f_phone">Phone</label><input id="f_phone" name="phone" type="tel" autocomplete="tel" placeholder="(555) 123-4567" pattern="[0-9+\-\s().]*"></div>
+          <div class="field"><label for="f_phone">Phone</label><input id="f_phone" name="phone" type="tel" autocomplete="tel" placeholder="(555) 123-4567" pattern="\(\d{3}\) \d{3}-\d{4}" maxlength="14" title="(555) 123-4567"></div>
           <div class="field full" id="pickedWrap" hidden><span class="lbl">From your quote list</span><div class="picked" id="picked"></div><input type="hidden" name="products" id="productsField"></div>
           <div class="field full"><span class="lbl">Packaging</span><div class="toggle-group"><label><input type="checkbox" name="packaging" value="Bulk" data-track><span><svg viewBox="0 0 24 24" class="ico" aria-hidden="true"><path d="M2 6h12v10H2zM14 9h4l3 3v4h-7"/><circle cx="6" cy="18" r="2"/><circle cx="17" cy="18" r="2"/></svg>Bulk</span></label><label><input type="checkbox" name="packaging" value="Tote"><span><svg viewBox="0 0 24 24" class="ico" aria-hidden="true"><path d="M3 8l9-5 9 5v8l-9 5-9-5z"/><path d="M3 8l9 5 9-5M12 13v8"/></svg>Tote</span></label><label><input type="checkbox" name="packaging" value="Drum"><span><svg viewBox="0 0 24 24" class="ico" aria-hidden="true"><ellipse cx="12" cy="5" rx="7" ry="2.5"/><path d="M5 5v14c0 1.4 3.1 2.5 7 2.5s7-1.1 7-2.5V5M5 10c0 1.4 3.1 2.5 7 2.5s7-1.1 7-2.5M5 15c0 1.4 3.1 2.5 7 2.5s7-1.1 7-2.5"/></svg>Drum</span></label><label><input type="checkbox" name="packaging" value="Pail"><span><svg viewBox="0 0 24 24" class="ico" aria-hidden="true"><path d="M12 3s6 6.5 6 11a6 6 0 0 1-12 0c0-4.5 6-11 6-11z"/></svg>Pail</span></label></div></div>
           <div class="field"><label for="f_qty">Quantity</label><input id="f_qty" name="quantity" placeholder="e.g. 6 totes, 4,000 gal"></div>
@@ -127,7 +127,7 @@
   </div>
 </footer>
 <script src="assets/js/data.js?v=20261026"></script>
-<script src="assets/js/site.js?v=20261026"></script>
+<script src="assets/js/site.js?v=20261028"></script>
 <script src="assets/js/catalog.js?v=20261026"></script>
 </body>
 </html>

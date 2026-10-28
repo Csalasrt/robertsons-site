@@ -270,6 +270,20 @@
   /* ---------- Year ---------- */
   $$("[data-year]").forEach(function (el) { el.textContent = new Date().getFullYear(); });
 
+  /* ---------- Phone mask: (xxx) xxx-xxxx ---------- */
+  $$('input[type="tel"]').forEach(function (inp) {
+    inp.addEventListener("input", function () {
+      var d = inp.value.replace(/\D/g, "");
+      if (d.length > 10 && d.charAt(0) === "1") d = d.slice(1);
+      d = d.slice(0, 10);
+      var out = d;
+      if (d.length > 6) out = "(" + d.slice(0, 3) + ") " + d.slice(3, 6) + "-" + d.slice(6);
+      else if (d.length > 3) out = "(" + d.slice(0, 3) + ") " + d.slice(3);
+      else if (d.length) out = "(" + d;
+      inp.value = out;
+    });
+  });
+
   /* ---------- Pump jack field canvas ---------- */
   function PumpJacks(canvas) {
     var ctx = canvas.getContext("2d");
