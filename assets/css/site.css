@@ -281,7 +281,7 @@ body.menu-open .mmenu nav a{opacity:1;transform:none;transition-delay:calc(.25s 
 .marquee::before,.marquee::after{content:"";position:absolute;top:0;bottom:0;width:120px;z-index:2;pointer-events:none}
 .marquee::before{left:0;background:linear-gradient(90deg,#fff,transparent)}
 .marquee::after{right:0;background:linear-gradient(-90deg,#fff,transparent)}
-.marquee-track{display:flex;width:max-content;animation:marq 70s linear infinite}
+.marquee-track{display:flex;width:max-content;animation:marq 95s linear infinite}
 .marquee:hover .marquee-track{animation-play-state:paused}
 .marquee-track span{display:inline-flex;align-items:center;gap:28px;padding-right:28px;font-size:clamp(18px,2vw,24px);font-weight:600;letter-spacing:-.02em;color:var(--ink-2);white-space:nowrap}
 .marquee-track span::after{content:"";width:6px;height:6px;border-radius:2px;background:var(--red);transform:rotate(45deg)}
