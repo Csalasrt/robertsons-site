@@ -231,5 +231,30 @@
       });
     }
     form.addEventListener("input", meter); form.addEventListener("change", meter); meter();
+
+    // submit to Formspree without leaving the page
+    var done = $("#formDone");
+    var btn = form.querySelector('button[type="submit"]');
+    var err = document.createElement("p");
+    err.className = "form-err"; err.setAttribute("role", "alert"); err.hidden = true;
+    form.querySelector(".form-actions").after(err);
+    form.addEventListener("submit", function (e) {
+      if (!window.fetch || !window.FormData) return; // old browsers: normal post
+      e.preventDefault();
+      err.hidden = true;
+      btn.disabled = true; btn.style.opacity = ".6";
+      fetch(form.action, { method: "POST", body: new FormData(form), headers: { Accept: "application/json" } })
+        .then(function (r) {
+          if (!r.ok) throw new Error("bad status");
+          form.reset(); list = []; draw(); meter();
+          form.hidden = true;
+          if (done) { done.hidden = false; done.focus(); }
+        })
+        .catch(function () {
+          err.innerHTML = 'Sorry, that didn’t go through. Please try again, call <a href="tel:+12815508286">281-550-8286</a>, or email <a href="mailto:info@robertsonsteam.com">info@robertsonsteam.com</a>.';
+          err.hidden = false;
+        })
+        .then(function () { btn.disabled = false; btn.style.opacity = ""; });
+    });
   }
 })();

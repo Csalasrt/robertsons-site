@@ -480,9 +480,9 @@ body.menu-open .mmenu nav a{opacity:1;transform:none;transition-delay:calc(.25s 
 .partners{display:grid;grid-template-columns:repeat(3,1fr);gap:20px}
 .partner{border:1px solid var(--line);border-radius:var(--r-lg);background:#fff;overflow:hidden;display:flex;flex-direction:column;transition:box-shadow .5s var(--ease),transform .5s var(--ease)}
 .partner:hover{box-shadow:var(--shadow-2);transform:translateY(-4px)}
-.partner .pl{height:200px;display:grid;place-items:center;background:var(--paper);border-bottom:1px solid var(--line);padding:30px}
-.partner .pl img{max-height:110px;width:auto;object-fit:contain;filter:grayscale(1);opacity:.85;transition:filter .5s,opacity .5s,transform .6s var(--ease)}
-.partner:hover .pl img{filter:none;opacity:1;transform:scale(1.04)}
+.partner .pl{height:240px;display:grid;place-items:center;background:var(--paper);border-bottom:1px solid var(--line);padding:22px}
+.partner .pl img{max-height:180px;max-width:100%;width:auto;object-fit:contain;transition:transform .6s var(--ease)}
+.partner:hover .pl img{transform:scale(1.04)}
 .partner .pb{padding:26px;display:flex;flex-direction:column;gap:10px;flex:1}
 .partner h3{font-size:19px;letter-spacing:-.015em}
 .partner p{color:var(--muted);font-size:15px;margin:0;flex:1}
@@ -738,3 +738,9 @@ body.is-leaving .veil{transform:scaleY(1);transform-origin:top}
 .pack-panel:has(.pp-photo){grid-template-columns:1fr}
 }
 @media (prefers-reduced-motion:reduce){.pack-panel .pp-photo img{transition:none;transform:none;opacity:1}}
+/* quote form: sent / error states */
+.form-done{padding:28px 0 8px;outline:none}
+.form-done h3{margin:0 0 8px;font-size:clamp(22px,2.2vw,28px);letter-spacing:-.02em;color:var(--ink)}
+.form-done p{margin:0;color:var(--ink-2)}
+.form-done a,.form-err a{text-decoration:underline}
+.form-err{margin:14px 0 0;color:#B42318;font-size:15px}

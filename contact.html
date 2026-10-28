@@ -9,7 +9,7 @@
 <meta property="og:title" content="Contact & Request a Quote | Robertsons Team"><meta property="og:description" content="Request a quote for commodity and specialty chemicals. Call 281-550-8286 or send your product, spec, quantity, packaging and destination."><meta property="og:type" content="website">
 <link rel="icon" href="assets/img/logo-mark.png">
 <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@62..125,300..800&family=Tinos:wght@700&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="assets/css/site.css?v=20261028b">
+<link rel="stylesheet" href="assets/css/site.css?v=20261028d">
 <script>document.documentElement.className="js";setTimeout(function(){document.documentElement.classList.add("is-ready")},2500);</script>
 </head><body>
 <a class="skip" href="#main">Skip to content</a>
@@ -48,9 +48,14 @@
       <div class="form-steps" aria-hidden="true"><i></i><i></i><i></i><i></i></div>
       <h2>Tell us what you need.</h2>
       <p>The more detail you share, the faster we can quote. Fields marked * are required.</p>
-      <form id="quoteForm" name="rt-quote" method="POST" data-netlify="true" netlify-honeypot="bot-field" action="contact.html?sent=1">
-        <input type="hidden" name="form-name" value="rt-quote">
-        <p class="sr-only"><label>Don’t fill this out: <input name="bot-field"></label></p>
+      <div class="form-done" id="formDone" role="status" tabindex="-1" hidden>
+        <h3>Thanks, we got your request.</h3>
+        <p>Someone from our team will reach out shortly. Need it sooner? Call dispatch at <a href="tel:+12815508286">281-550-8286</a>.</p>
+      </div>
+      <!-- QUOTE FORM: replace YOUR_FORM_ID with the ID from your Formspree form (formspree.io) -->
+      <form id="quoteForm" name="rt-quote" method="POST" action="https://formspree.io/f/YOUR_FORM_ID">
+        <input type="hidden" name="_subject" value="New quote request: robertsonsteam.com">
+        <p class="sr-only"><label>Don’t fill this out: <input name="_gotcha" tabindex="-1" autocomplete="off"></label></p>
         <div class="fgrid">
           <div class="field"><label for="f_name">Name *</label><input id="f_name" name="name" autocomplete="name" required data-track placeholder="Your name"></div>
           <div class="field"><label for="f_company">Company</label><input id="f_company" name="company" autocomplete="organization" placeholder="Company name"></div>
@@ -127,7 +132,7 @@
   </div>
 </footer>
 <script src="assets/js/data.js?v=20261026"></script>
-<script src="assets/js/site.js?v=20261028"></script>
+<script src="assets/js/site.js?v=20261028b"></script>
 <script src="assets/js/catalog.js?v=20261026"></script>
 </body>
 </html>
