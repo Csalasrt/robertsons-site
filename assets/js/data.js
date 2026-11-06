@@ -6,28 +6,28 @@ window.RT_CATALOG = [
     ["Amyl Alcohol", 6.55, 0.786],
     ["Cyclohexanol", 6.58, 0.79],
     ["Ethanol, Anhydrous", 6.6, 0.791],
-    ["Ethylhexanol (2EH)", 6.72, 0.808],
-    ["Isopropyl Alcohol 99% (IPA)", 6.79, 0.815],
-    ["Methanol", 6.94, 0.834],
+    ["Ethylhexanol (2EH)", 6.94, 0.808],
+    ["Isopropyl Alcohol 99% (IPA)", 6.55, 0.815],
+    ["Methanol", 6.6, 0.834],
     ["Methyl Amyl Alcohol", 7.91, 0.946]
   ]},
   { id: "aliphatics", name: "Aliphatics", blurb: "Light, fast-evaporating hydrocarbon solvents.", items: [
     ["Heptane", 5.79, 0.695],
-    ["Hexane", 5.61, 0.675],
+    ["Hexane", 5.63, 0.675],
     ["Pentane", 5.26, 0.631],
-    ["Solvent 142", 6.54, 0.784]
+    ["Solvent 142", 6.67, 0.784]
   ]},
   { id: "aromatics", name: "Aromatics", blurb: "High-solvency aromatic hydrocarbons.", items: [
-    ["Toluene", 7.25, 0.869],
-    ["Xylene", 7.26, 0.87]
+    ["Toluene", 7.26, 0.869],
+    ["Xylene", 7.25, 0.87]
   ]},
   { id: "glycols", name: "Glycols", blurb: "Dehydration, freeze protection and hydrate inhibition.", items: [
     ["Diethylene Glycol", 8.52, 1.023],
     ["Dipropylene Glycol", 9.36, 1.125],
-    ["Ethylene Glycol", 8.64, 1.038],
+    ["Ethylene Glycol", 9.29, 1.038],
     ["Hexylene Glycol", 7.69, 0.923],
-    ["Propylene Glycol", 9.28, 1.115],
-    ["Triethylene Glycol", 8.51, 1.023],
+    ["Propylene Glycol", 8.65, 1.115],
+    ["Triethylene Glycol", 9.39, 1.023],
     ["Tripropylene Glycol", 9.31, 1.119]
   ]},
   { id: "glycol-ethers", name: "Glycol Ethers", blurb: "Coupling solvents for formulations and cleaners.", items: [
@@ -43,7 +43,7 @@ window.RT_CATALOG = [
     ["Glycol Ether PP", 7.36, 0.882]
   ]},
   { id: "ketones", name: "Ketones", blurb: "Strong, versatile industrial solvents.", items: [
-    ["Acetone", 6.59, 0.79],
+    ["Acetone", 6.54, 0.79],
     ["Diisobutyl Ketone", 6.75, 0.809],
     ["Methyl Amyl Ketone", 6.8, 0.818],
     ["Methyl Ethyl Ketone (MEK)", 6.71, 0.806],
@@ -52,11 +52,11 @@ window.RT_CATALOG = [
     ["Methyl Propyl Ketone", 6.72, 0.807]
   ]},
   { id: "acids", name: "Acids", blurb: "Mineral and organic acids for stimulation and processing.", items: [
-    ["Acetic Acid Glacial 99.8%", 8.79, 1.053],
+    ["Acetic Acid Glacial 99.8%", 8.74, 1.053],
     ["Boric Acid 99.8%", 9.09, 1.089],
     ["Formic Acid 90%", 10.1, 1.211],
     ["Glycolic Acid 70%", 10.6, 1.27],
-    ["Hydrochloric Acid 31.5%", 9.67, 1.159],
+    ["Hydrochloric Acid 31.5%", 9.81, 1.159],
     ["Lactic Acid 88%", 10, 1.199],
     ["Phosphoric Acid 75%", 13.1, 1.57],
     ["Phosphoric Acid 85%", 14.1, 1.69]
