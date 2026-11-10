@@ -21,5 +21,9 @@ QUOTE FORM
   list), packaging, quantity, destination, timeline, message.
 
 NOTES
-- The WTI / natural gas widgets in the footer load from oil-price.net.
+- The footer "Market watch" charts are TradingView Symbol Overview widgets
+  (WTI, Brent, natural gas; visitors pick 1D/1M/3M/1Y/5Y/All). They are in the
+  footer of every page. To change a symbol, edit the "symbols" line in each
+  page's footer, e.g. OANDA:WTICOUSD. NYMEX futures (CL1!, NG1!) do not load
+  in TradingView's free widgets, so these use broker spot prices instead.
 - base.html (the old Flask template) is no longer used.
